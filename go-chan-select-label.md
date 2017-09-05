@@ -35,3 +35,21 @@ func testChan() {
 	}
 }
 ```
+> label
+
+```
+func testLabel() {
+loop:
+	for i := 0; i < 100; i++ {
+		switch i {
+		case 49:
+			fmt.Println("i == 49")
+			// break
+			break loop
+		}
+		if i == 49 {
+			fmt.Println("You didn't get out of the place.")
+		}
+	}
+}
+```
