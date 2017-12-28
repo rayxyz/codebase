@@ -30,3 +30,43 @@ func sendLogToServer(palmLog *PalmLog) {
 	}
 }
 ```
+
+```
+func GetEasemobHXToken() (*EasemobHXToken, error) {
+	reqBodyBytes, err := json.Marshal(GetEasemobHXTokenReq{
+		GrantType:    grantType,
+		ClientId:     hxinfo.ClientId,
+		ClientSecret: hxinfo.ClientSecret,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", hxinfo.BaseUrl+"/token", bytes.NewBuffer([]byte(reqBodyBytes)))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil && resp != nil {
+		defer resp.Body.Close()
+	}
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode == http.StatusOK {
+		body, err := ioutil.ReadAll(resp.Body)
+		hxtoken := new(EasemobHXToken)
+		if err = json.Unmarshal(body, hxtoken); err != nil {
+			return nil, err
+		}
+		// log.Printf("I got the hx token => %#v", hxtoken)
+		return hxtoken, nil
+	}
+
+	return nil, errors.New("attaining hx token error")
+}
+```
