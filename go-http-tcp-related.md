@@ -195,4 +195,35 @@ func handleConn(conn net.Conn) {
 	}
 }
 
+// ReadPacket : Read MQTT packet from stream
+func ReadPacket(conn net.Conn) ([]byte, error) {
+	buf := make([]byte, 0, 4096)
+	tmp := make([]byte, 128)
+	i := 0
+	packLen := 0
+	for {
+		n, err := conn.Read(tmp)
+		if err != nil {
+			if err != io.EOF {
+				log.Println("read data error")
+			}
+			break
+		}
+		if i == 0 {
+			packLenParsed, err := GetPackLen(tmp[1:5])
+			if err != nil {
+				log.Println(err)
+				return nil, err
+			}
+			packLen = packLenParsed
+			i++
+		}
+		buf = append(buf, tmp[:n]...)
+		if len(buf) >= packLen {
+			break
+		}
+	}
+	return buf, nil
+}
+
 ```
