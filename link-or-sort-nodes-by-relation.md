@@ -1,3 +1,4 @@
+```golang
 package main
 
 import (
@@ -93,3 +94,4 @@ func main() {
 			" next_id => ", v.NextID, " is_transferred => ", v.IsTransferred)
 	}
 }
+```
