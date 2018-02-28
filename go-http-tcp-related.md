@@ -1,5 +1,5 @@
 > http
-```
+```go
 type PalmLog struct {
 	SchoolId int64  `json:"school_id,string"`
 	CampusId int64  `json:"campus_id,string"`
@@ -71,7 +71,8 @@ func GetEasemobHXToken() (*EasemobHXToken, error) {
 ```
 
 > tcp/client
-```package main
+```go
+package main
 
 import (
 	"bufio"
@@ -130,12 +131,10 @@ func (c *Client) Connect() {
 	}
 	fmt.Println(data)
 }
-
-
 ```
 
 > tcp/server
-```
+```go
 package main
 
 import (
