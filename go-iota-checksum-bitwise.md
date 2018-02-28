@@ -1,5 +1,5 @@
 > iota
-```
+```go
 const (
 	_ = iota
 	// CONNECT : Connect
@@ -34,7 +34,7 @@ const (
 ```
 
 > checksum
-```
+```go
 import (
 	"fmt"
 	"testing"
@@ -74,7 +74,7 @@ func TestChecksum(t *testing.T) {
 ```
 
 > bitwise
-```
+```go
 func TestBits(t *testing.T) {
 	// x := byte(0xE9)
 	x := byte('a')
