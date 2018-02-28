@@ -1,5 +1,5 @@
 > date & time
-```
+``` golang
 package util
 
 import (
