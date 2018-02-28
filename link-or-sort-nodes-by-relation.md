@@ -81,7 +81,7 @@ func findNextNode(node *Node, nodeList []*Node, newNodeList *[]*Node) {
 			if v.NextID != 0 {
 				findNextNode(v, nodeList, newNodeList)
 			}
-      break
+      			break
 		}
 	}
 }
