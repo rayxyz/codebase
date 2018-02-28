@@ -35,9 +35,9 @@ func testChan() {
 	}
 }
 ```
-> label
 
-```
+> label
+```go
 func testLabel() {
 loop:
 	for i := 0; i < 100; i++ {
@@ -55,7 +55,7 @@ loop:
 ```
 
 > chan & waitgroup
-``` 
+``` go
 func cacheAllData() {
 	log.Println("Begin caching all data...")
 	wg := new(sync.WaitGroup)
