@@ -1,3 +1,28 @@
+> link nodes
+```go
+// link process nodes
+func linkTheProcessNodeList(nodeList []*pb.ApproveProcessNode) ([]*pb.ApproveProcessNode, error) {
+	if nodeList == nil || len(nodeList) == 0 {
+		return nil, errors.New("node list is empty")
+	}
+	if len(nodeList) == 1 {
+		nodeList[0].PreId = 0
+		nodeList[0].NextId = 0
+	} else {
+		for i := 0; i < len(nodeList)-1; i++ {
+			node := nodeList[i]
+			nextNode := nodeList[i+1]
+			node.NextId = nextNode.Id
+			nextNode.PreId = node.Id
+		}
+		nodeList[0].PreId = 0
+		nodeList[len(nodeList)-1].NextId = 0
+	}
+	return nodeList, nil
+}
+```
+
+> sort nodes
 ```golang
 package main
 
