@@ -1,4 +1,4 @@
-```
+```go
 // 上传文件列表
 func uploadFileListHandler(ctx context.Context, req *httpx.Request, resp *httpx.Response) error {
 	var fileList []*pb.File
@@ -79,7 +79,7 @@ func uploadFileListHandler(ctx context.Context, req *httpx.Request, resp *httpx.
 }
 ```
 
-```
+```go
 var (
 	// homedir = os.Getenv("HOME")
 	homedir = "/root"
