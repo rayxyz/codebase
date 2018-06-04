@@ -134,9 +134,38 @@ func checkForUpdates() {
 	log.Println(">>> Update `last_check_time` to: ", dbtime)
 	conn.Do("SET", strings.Join([]string{constants.CachePrefix, "last_check_time"}, constants.SeparatorUnderscore), dbtime)
 }
-
 ```
 
+> Nonblocking chan
+```go
+func testNonBlockingChan() {
+	timeout := time.After(5 * time.Second)
+	ch := make(chan int)
+	go assignCh(ch)
+loop:
+	for {
+		log.Println("HAHAHAHAH")
+		select {
+		case <-timeout:
+			{
+				fmt.Println("Timeout.")
+			}
+		case <-ch:
+			{
+				fmt.Println("Channel case.")
+				break loop
+			}
+		}
+	}
+	fmt.Println("Hello, I am out !")
+}
+
+func assignCh(ch chan int) chan int {
+	time.Sleep(12 * time.Second)
+	ch <- 1
+	return ch
+}
+```
 
 
 
