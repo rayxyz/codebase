@@ -167,5 +167,126 @@ func assignCh(ch chan int) chan int {
 }
 ```
 
+> Real world example
+```go
+type qrCode struct {
+	Key    string `json:"key"`
+	QRCode string `json:"qr_code"`
+}
+
+type genQRCodeRawData struct {
+	Key     string  `json:"key"`
+	IntKey  int     `json:"int_key"`
+	Value   string  `json:"value"`
+	Bgcolor []uint8 `json:"bgcolor"`
+	Fgcolor []uint8 `json:"fgcolor"`
+	Size    int     `json:"size,string"`
+}
+
+type genQRCodeListParams struct {
+	RawData []*genQRCodeRawData `json:"raw_data"`
+}
+
+// Generate QRCode list
+func genQRCodeListHandler(ctx context.Context, req *httpx.Request, resp *httpx.Response) error {
+	params := new(genQRCodeListParams)
+	if err := req.MapJson(params); err != nil {
+		return err
+	}
+	if params.RawData == nil || len(params.RawData) == 0 {
+		resp.StatusCode = exception.CodeParseParamsError
+		resp.Message = "error params！"
+		return nil
+	}
+
+	// var qrcodeList []*qrCode
+	// for _, v := range params.RawData {
+	// 	q, err := qrcode.New(v.Value, qrcode.Medium)
+	// 	q.BackgroundColor = color.RGBA{v.Bgcolor[0], v.Bgcolor[1], v.Bgcolor[2], 255}
+	// 	q.ForegroundColor = color.RGBA{v.Fgcolor[0], v.Fgcolor[1], v.Fgcolor[2], 255}
+	// 	buf, err := q.PNG(v.Size)
+	// 	if err != nil {
+	// 		resp.StatusCode = exception.CodeRunningError
+	// 		resp.Message = "generating QR code error！"
+	// 		return nil
+	// 	}
+	// 	base64QRCode := base64.StdEncoding.EncodeToString([]byte(buf))
+	// 	base64QRCodeImg := "data:image/png;base64," + base64QRCode
+	// 	qrcodeList = append(qrcodeList, &qrCode{
+	// 		Key:    v.Key,
+	// 		QRCode: base64QRCodeImg,
+	// 	})
+	// }
+
+	batchCount := 0
+	batchMap := make(map[int][]*genQRCodeRawData)
+	var rawDataList []*genQRCodeRawData
+	for i, v := range params.RawData {
+		if strings.EqualFold(v.Key, dict.Blank) || strings.EqualFold(v.Value, dict.Blank) ||
+			len(v.Bgcolor) < 3 || len(v.Fgcolor) < 3 {
+			resp.StatusCode = exception.CodeParseParamsError
+			resp.Message = "data item empty：key => " + v.Key + ", value => " + v.Value
+			return nil
+		}
+		v.Key = strconv.Itoa(i)
+		v.IntKey = i
+		log.Println(i)
+		v.Value = v.Key + v.Value
+		rawDataList = append(rawDataList, v)
+		if len(rawDataList) >= 50 {
+			batchCount++
+			// need to depp copy rawDataList
+			cpy := make([]*genQRCodeRawData, len(rawDataList))
+			copy(cpy, rawDataList)
+			batchMap[batchCount] = cpy
+			rawDataList = append(rawDataList[:0])
+		}
+	}
+	batchCount++
+	cpy := make([]*genQRCodeRawData, len(rawDataList))
+	copy(cpy, rawDataList)
+	batchMap[batchCount] = cpy
+	log.Println("length(batchMap) => ", len(batchMap))
+	rawDataList = append(rawDataList[:0])
+
+	synch := make(chan struct{})
+	wg := new(sync.WaitGroup)
+	var qrcodeList []*qrCode
+	for i, dataList := range batchMap {
+		rawDataList = append(rawDataList, batchMap[i]...)
+		wg.Add(1)
+		go func(synch <-chan struct{}, wg *sync.WaitGroup, dataList []*genQRCodeRawData) {
+			defer wg.Done()
+			var list []*qrCode
+			for _, v := range dataList {
+				q, err := qrcode.New(v.Value, qrcode.Medium)
+				q.BackgroundColor = color.RGBA{v.Bgcolor[0], v.Bgcolor[1], v.Bgcolor[2], 255}
+				q.ForegroundColor = color.RGBA{v.Fgcolor[0], v.Fgcolor[1], v.Fgcolor[2], 255}
+				buf, err := q.PNG(v.Size)
+				if err != nil {
+					log.Println("error of generating QR code！")
+				}
+				base64QRCode := base64.StdEncoding.EncodeToString([]byte(buf))
+				base64QRCodeImg := "data:image/png;base64," + base64QRCode
+				list = append(list, &qrCode{
+					Key:    v.Key,
+					QRCode: base64QRCodeImg,
+				})
+			}
+			qrcodeList = append(qrcodeList, list...)
+			<-synch
+		}(synch, wg, dataList)
+		log.Println("executed goroutine ", i, " finished.")
+	}
+
+	close(synch)
+	wg.Wait()
+
+	resp.WriteKeyvals("data", qrcodeList)
+
+	return nil
+}
+```
+
 
 
