@@ -1,3 +1,5 @@
+> The goroutines block on sending to the unbuffered channel. A minimal change unblocks the goroutines is to create a buffered channel with capacity 
+
 > go channel selection
 
 ```go
