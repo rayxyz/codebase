@@ -1,4 +1,47 @@
-# References
+# vue-cropper demo code
+```
+crop(type) {
+	if (type === 'blob') {
+		this.$refs.cropper.getCropBlob((data) => {
+			console.log(data);
+			var img = window.URL.createObjectURL(data);
+			this.cropper.croppedImage = img;
+			// this.cropper.croppedImage = data;
+		})
+	} else {
+		this.$refs.cropper.getCropData((data) => {
+			this.cropper.croppedImage = data;
+		});
+	}
+	this.showCropperModal = !this.showCropperModal;
+}
+
+handleFileUpload(e) {
+	this.file = this.$refs.postCoverImageFile.files[0];
+	console.log(this.file);
+	this.showCropperModal = true;
+
+	var reader = new FileReader();
+	reader.onload = (e) => {
+		console.log(e.target.result);
+		console.log('typeof e.target.result => ', typeof e.target.result);
+		let data;
+		if (typeof e.target.result === 'object') {
+			// 把Array Buffer转化为blob 如果是base64不需要
+			data = window.URL.createObjectURL(new Blob([e.target.result]));
+		} else {
+			data = e.target.result;
+		}
+		this.cropper.option.img = data;
+	}
+	// 转化为base64
+	// reader.readAsDataURL(file)
+	// 转化为blob
+	reader.readAsArrayBuffer(this.file)
+},
+```
+
+# blob url/url to blob
 > async
 [https://stackoverflow.com/questions/52798723/append-created-image-file-in-formdata](https://stackoverflow.com/questions/52798723/append-created-image-file-in-formdata)
 ```
