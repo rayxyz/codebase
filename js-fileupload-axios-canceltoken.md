@@ -43,11 +43,14 @@ FileUploader.prototype.upload2Server = function (files, ele, customEvt, callback
 }
 ```
 cancel the request/uploading:
+reference: [https://github.com/axios/axios#cancellation](https://github.com/axios/axios#cancellation)
 ```
 let sourceList = this.cancelTokenSourceList;
-				if (sourceList && sourceList.length > 0) {
-					for (let i = 0; i < sourceList.length; i++) {
-						sourceList[i].cancel('cancel cover image uploading');
-					}
-				}
+if (sourceList && sourceList.length > 0) {
+	for (let i = 0; i < sourceList.length; i++) {
+		sourceList[i].cancel('cancel cover image uploading');
+	}
+}
 ```
+
+
