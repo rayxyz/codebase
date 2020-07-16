@@ -6,7 +6,7 @@
 
 # comment block
 ```
-1. ctl + v
+1. ctl + v or d to cut
 2. arrow to select
 3. shift + i
 4. #
