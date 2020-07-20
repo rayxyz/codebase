@@ -123,6 +123,37 @@ func New(filenames ...string) (*template.Template, error) {
 }
 ```
 
+# backend handler
+```
+// Get the index page
+func indexPageHandler(ctx context.Context, req *httpx.Request, resp *httpx.Response) error {
+	resp.Stream = true
+	
+	...
+	
+	tmpl, err := template.New(
+		filepath.Join(staticResourcePathWebapp, "index.html"),
+		filepath.Join(staticResourcePathWebapp, "pages/header.html"),
+		filepath.Join(staticResourcePathWebapp, "pages/footer.html"),
+	)
+	if err != nil {
+		return err
+	}
+	err = tmpl.ExecuteTemplate(resp.GetWriter(), "index.html", template.Data{
+		"page":              "home",
+		"user":              user,
+		"topBlogPostList":   topBlogPostComList,
+		"blogPostList":      blogPostComList,
+		"communityPostList": communityPostComList,
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+```
+
 # html comprehensive example
 ```
 <!DOCTYPE html>
