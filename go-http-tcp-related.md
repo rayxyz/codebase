@@ -1,4 +1,56 @@
-> http
+# http
+
+> simple
+
+Get: 
+```go 
+
+url := "xyz.com/abc"
+r, err := http.Get(url)
+if err != nil {
+	resp.Status = httpx.StatusQueryDataError
+	resp.Message = "query service from registry server error"
+	return nil
+}
+defer r.Body.Close()
+
+if r.StatusCode != http.StatusOK {
+	io.Copy(ioutil.Discard, r.Body) // !important
+	resp.Status = httpx.StatusQueryDataError
+	resp.Message = "registry server response status => " + r.Status
+	return nil
+}
+```
+
+Post:
+```go
+resp, err := http.Post(registerAddr, "application/json", bytes.NewBuffer(svcData))
+if err != nil {
+	log.Fatalf("connect to registry server '%s' error\n", registerAddr)
+	return err
+}
+defer resp.Body.Close()
+
+if resp.StatusCode == http.StatusOK {
+	buf, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+	if err = json.Unmarshal(buf, &s); err != nil {
+		log.Fatal(err)
+		return err
+	}
+	log.Infof("register service %s success, key => %s\n", s.Name, s.Key)
+} else {
+	bbs, _ := ioutil.ReadAll(resp.Body)
+	errmsg := fmt.Sprintf("status => %s, message => %s", resp.Status, string(bbs))
+	log.Fatal(errmsg)
+	return errors.New(errmsg)
+}
+```
+
+> complex
 ```go
 type PalmLog struct {
 	SchoolId int64  `json:"school_id,string"`
