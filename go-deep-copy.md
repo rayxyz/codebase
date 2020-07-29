@@ -1,7 +1,8 @@
 # copy
+Check more in file go-chan-xxxx.md file, there's the QRCode generation example.
 ```
-var liteSvcList []*registry.Service
 svcList := registor.GetAll()
+liteSvcList := make([]*registry.Service, len(svcList))
 copy(liteSvcList, svcList)
 for _, v := range liteSvcList {
   v.ResponseTime = nil
