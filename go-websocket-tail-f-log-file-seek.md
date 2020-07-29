@@ -17,7 +17,7 @@ upgrader.CheckOrigin = func(r *http.Request) bool {
 	defer c.Close()
 
 	t, err := tail.TailFile(logFileName, tail.Config{Follow: true, Location: &tail.SeekInfo{
-		Offset: 200,
+		Offset: 1,
 		Whence: os.SEEK_END,
 	}})
 	if err != nil {
