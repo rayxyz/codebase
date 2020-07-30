@@ -1,3 +1,10 @@
+# preserve request body in function chain
+```
+bodyBytes, _ := ioutil.ReadAll(r.Body) // preserve the request body
+something = parseSomethingFromRequest(r)
+r.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes)) // set back the request body
+```
+
 # http
 
 > simple
