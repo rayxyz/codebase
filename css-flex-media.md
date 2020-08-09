@@ -18,3 +18,14 @@ display: flex; flex-direction: row; flex-wrap: wrap;
   </div>
 </div>
 ```
+
+# media
+
+```
+@media all and (max-width: 760px) {
+    body {
+	      background-image: none;
+	      background-color: lightgray;
+    }
+}
+```
