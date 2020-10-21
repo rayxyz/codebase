@@ -32,6 +32,19 @@ Remove a remote
 origin	https://username:password@github.com/abc/xxxxxx.git (fetch)
 origin	https://username:password@github.com/abc/xxxxxx.git (push)
 ```
+# git set-url 
+Set new remote url
+```
+ray@ray-zdz:~/workspace/blogbak$ git remote -v
+origin	https://gitclone.com/github.com/rayxyz/blogbak (fetch)
+origin	https://gitclone.com/github.com/rayxyz/blogbak (push)
+
+ray@ray-zdz:~/workspace/blogbak$ git remote set-url origin https://github.com/rayxyz/blogbak
+ray@ray-zdz:~/workspace/blogbak$ git remote -v
+origin	https://github.com/rayxyz/blogbak (fetch)
+origin	https://github.com/rayxyz/blogbak (push)
+```
+
 # set tracking information `master` branch for the newly add remote
 ```
 git branch --set-upstream-to=origin/master master
