@@ -1,9 +1,9 @@
 # Race detector usage
- ```
+ ```shell
  ray@ray-pc:~/go_workspace/src/ahezime.com/ahezime/test$ go test -race
 ```
 
-```
+```go
 func randomDuration() time.Duration {
 	return time.Duration(rand.Int63n(1e9))
 }
@@ -35,7 +35,7 @@ func TestRaceDetector(t *testing.T) {
 ```
 
 Race condition detected: 
-```
+```shell
 948.079392ms
 ==================
 WARNING: DATA RACE
