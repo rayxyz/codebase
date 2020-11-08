@@ -59,3 +59,8 @@ Already up-to-date.
 ```
 git push -u origin ray
 ```
+
+# delete a branch
+```
+git branch -d dev
+```
