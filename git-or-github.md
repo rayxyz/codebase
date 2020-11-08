@@ -54,3 +54,8 @@ git branch --set-upstream-to=origin/master master
 > git pull
 Already up-to-date.
 ```
+
+# push a new branch to remote
+```
+git push -u origin ray
+```
