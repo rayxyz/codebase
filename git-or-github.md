@@ -60,6 +60,11 @@ Already up-to-date.
 git push -u origin ray
 ```
 
+# view all branches
+```
+git branch -a
+```
+
 # delete a branch
 ```
 git branch -d dev
