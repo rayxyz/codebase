@@ -1,3 +1,27 @@
+# nmap
+```
+ray@ray-pc:~$ nmap -v -sn 192.168.0.0/24
+
+Starting Nmap 7.01 ( https://nmap.org ) at 2020-11-21 16:33 CST
+Initiating Ping Scan at 16:33
+Scanning 256 hosts [2 ports/host]
+Completed Ping Scan at 16:33, 2.52s elapsed (256 total hosts)
+Initiating Parallel DNS resolution of 256 hosts. at 16:33
+Completed Parallel DNS resolution of 256 hosts. at 16:33, 0.06s elapsed
+Nmap scan report for 192.168.0.0 [host down]
+Nmap scan report for 192.168.0.1
+Host is up (0.014s latency).
+Nmap scan report for 192.168.0.2 [host down]
+Nmap scan report for 192.168.0.3 [host down]
+Nmap scan report for 192.168.0.4 [host down]
+Nmap scan report for 192.168.0.5 [host down]
+Nmap scan report for 192.168.0.6 [host down]
+Nmap scan report for 192.168.0.7 [host down]
+Nmap scan report for 192.168.0.8 [host down]
+Nmap scan report for 192.168.0.9 [host down]
+......
+```
+
 # mtr
 ```
 ray@ray-pc:~$ mtr --report -i 5 -c 10 12.34.56.78
