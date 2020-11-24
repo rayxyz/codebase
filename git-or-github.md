@@ -69,3 +69,11 @@ git branch -a
 ```
 git branch -d dev
 ```
+
+# solve `error: Your local changes to the following files would be overwritten by merge`
+```
+git stash
+git stash drop
+git pull
+```
+The local changes will be lost after above operations.
