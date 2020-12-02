@@ -1,5 +1,5 @@
 # A comprehensive example 
-```
+```go
 package concurrency
 
 import (
