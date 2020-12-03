@@ -76,6 +76,8 @@ git stash
 git stash drop
 git pull
 ```
+Check out stash workflow: [https://css-irl.info/how-git-stash-can-help-you-juggle-multiple-branches/](https://css-irl.info/how-git-stash-can-help-you-juggle-multiple-branches/)
+
 The local changes will be lost after above operations.
 
 # restore deleted/misoperations of files
