@@ -77,3 +77,8 @@ git stash drop
 git pull
 ```
 The local changes will be lost after above operations.
+
+# restore deleted/misoperations of files
+```
+git reset HEAD filecoin-ffi/
+```
