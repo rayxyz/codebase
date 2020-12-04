@@ -84,3 +84,130 @@ The local changes will be lost after above operations.
 ```
 git reset HEAD filecoin-ffi/
 ```
+
+# Push local new branch to remote and track
+```
+git push -u origin <branch>
+```
+
+# List configs
+```
+git config -l
+```
+
+# Create a branch and check it out.
+```
+git checkout -b ray
+```
+
+# Ignore some file modified and added it to the .gitignore but still showing under the command `git status`
+```
+git rm -r --cached github.com/golang/protobuf/protoc-gen-go/protoc-gen-go
+```
+
+# Reset add
+```
+git reset HEAD github.com/golang/protobuf/protoc-gen-go/protoc-gen-go
+```
+
+# Reset commit
+```
+git reset --soft HEAD^
+```
+
+# Credential caching
+```
+git config credential.helper store
+```
+## With specific time to expire (eg.: 2hrs)
+```
+git config --global credential.helper 'cache --timeout 7200'
+```
+
+# Merge
+Merge branches fixes and enhancements on top of the current branch, making an octopus merge:
+```
+$ git merge fixes enhancements
+```
+
+Merge branch obsolete into the current branch, using ours merge strategy:
+```
+$ git merge -s ours obsolete
+```
+
+Merge branch maint into the current branch, but do not make a new commit automatically:
+```
+$ git merge --no-commit maint
+```
+
+# Force checkout branch
+```
+git checkout -f another-branch
+```
+
+# Change the remote
+```
+git remote
+git remote set-url origin git@192.168.1.252:wangrui/sdmicro.git
+```
+
+# Forcefully overrite the remote repo with local one
+```
+git push origin dev -f
+```
+
+# Check size of Git proj
+```
+git count-objects -vH
+```
+
+# assume file unchanged(actually it has been changed)
+git update-index --assume-unchanged vendor/github.com/golang/protobuf/protoc-gen-go/protoc-gen-go
+# and track the changed file again
+git update-index --no-assume-unchanged vendor/github.com/golang/protobuf/protoc-gen-go/protoc-gen-go
+
+# Change user.name
+```
+ git config --global user.name "rayxyz"
+```
+
+# Stashing
+```
+Stashing before switch branches to avoid errors when switch to another branch, but the current changes are not committed.
+```
+## Stash
+```
+git stash
+```
+## Stash list
+```
+git stash list
+```
+```
+stash@{0}: WIP on ray: d805c16 add user appmodule rel feature
+stash@{1}: WIP on ray: d805c16 add user appmodule rel feature
+```
+## Apply a stash
+```
+git apply
+git apply stash@{1}
+git stash pop
+```
+## Drop a stash
+```
+git stash drop stash@{0}
+```
+# Unmerge
+```
+git merge --abort
+```
+# Checkout a remote branch
+```
+git checkout -b newlocalbranchname origin/branch-name
+
+Or
+
+git checkout -t origin/branch-name
+
+The latter will create a branch that is also set to track the remote branch.me
+```
