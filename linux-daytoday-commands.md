@@ -8,6 +8,26 @@
 du -sh ./
 du -d 1 -h ./
 ```
+# df
+```
+Filesystem     1K-blocks      Used Available Use% Mounted on
+udev             8088972         0   8088972   0% /dev
+tmpfs            1623428      3384   1620044   1% /run
+/dev/sda1       97905224  10576480  82312412  12% /
+tmpfs            8117132    214208   7902924   3% /dev/shm
+tmpfs               5120         4      5116   1% /run/lock
+```
+
+# df -h
+```
+Filesystem      Size  Used Avail Use% Mounted on
+udev            7.8G     0  7.8G   0% /dev
+tmpfs           1.6G  3.4M  1.6G   1% /run
+/dev/sda1        94G   11G   79G  12% /
+tmpfs           7.8G  205M  7.6G   3% /dev/shm
+tmpfs           5.0M  4.0K  5.0M   1% /run/lock
+```
+
 # scp
 ```
 scp ahz_common root@192.168.1.164:/ahezime/bin
