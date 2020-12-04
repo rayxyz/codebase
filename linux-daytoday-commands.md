@@ -374,4 +374,10 @@ systemctl list-unit-files --type=service
 ```
 systemctl list-unit-files --type=service
 ``` 
+# Fix Linux GUI frozen
+https://www.fosslinux.com/39434/5-things-to-do-when-your-linux-system-gui-freezes.htm
 
+# clear ubuntu DNS cache
+```
+sudo systemd-resolve --flush-caches
+```
