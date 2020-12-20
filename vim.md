@@ -31,3 +31,13 @@
 ```
 p
 ```
+
+# show spaces
+```
+:set lcs+=space:.
+:set list
+```
+# turn off spaces
+```
+set nolist
+```
