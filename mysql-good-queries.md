@@ -173,7 +173,64 @@ t.* from
 ) t where t.row_num <= 5;
 ```
 
-
+The old `union select` way: 
+```
+select
+t.* from 
+(
+	select 
+	t1.* from ( select t2.id category_id, 
+	t2.name category_name, 
+	t1.id topic_id, 
+	t1.name topic_name, 
+	t.id, 
+	t.title, 
+	t.abstract, 
+	t.content, 
+	t.cover_image, 
+	t.create_time, 
+	t.update_time
+	from post t
+	inner join post_topic t0 on t0.post_id = t.id 
+	inner join topic t1 on t1.deleted is false and t1.id = t0.topic_id
+	inner join category t2 on t2.deleted is false and t2.id = t1.category_id and t2.id = 1
+	where t.deleted is false limit 6) t1
+    union select t2.* from (select 
+	t2.id category_id, 
+	t2.name category_name, 
+	t1.id topic_id, 
+	t1.name topic_name, 
+	t.id, 
+	t.title, 
+	t.abstract, 
+	t.content, 
+	t.cover_image, 
+	t.create_time, 
+	t.update_time
+	from post t
+	inner join post_topic t0 on t0.post_id = t.id 
+	inner join topic t1 on t1.deleted is false and t1.id = t0.topic_id
+	inner join category t2 on t2.deleted is false and t2.id = t1.category_id and t2.id = 2
+	where t.deleted is false limit 6) t2
+    union select t3.* from (select 
+	t2.id category_id, 
+	t2.name category_name, 
+	t1.id topic_id, 
+	t1.name topic_name, 
+	t.id, 
+	t.title, 
+	t.abstract, 
+	t.content, 
+	t.cover_image, 
+	t.create_time, 
+	t.update_time
+	from post t
+	inner join post_topic t0 on t0.post_id = t.id 
+	inner join topic t1 on t1.deleted is false and t1.id = t0.topic_id
+	inner join category t2 on t2.deleted is false and t2.id = t1.category_id and t2.id = 3
+	where t.deleted is false limit 6) t3
+) t where 1 = 1 order by t.category_id;
+```
 
 
 
