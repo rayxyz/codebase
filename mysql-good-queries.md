@@ -145,7 +145,32 @@ select
         0) mins;
 ```
 
-
+# Query limited items of each category of multiple categories with a single sql
+***(MySQL8.x Only, MySQL8.x supports the syntax)
+```
+select 
+t.* from 
+(
+	select 
+	t2.id categor_id, 
+	t2.name category_name, 
+	t1.id topic_id, 
+	t1.name topic_name, 
+	t.id, 
+	t.title, 
+	t.abstract, 
+	t.content, 
+	t.cover_image, 
+	t.create_time, 
+	t.update_time, 
+	row_number() over (partition by t2.id order by t2.id asc) row_num
+	from post t
+	inner join post_topic t0 on t0.post_id = t.id 
+	inner join topic t1 on t1.deleted is false and t1.id = t0.topic_id
+	inner join category t2 on t2.deleted is false and t2.id = t1.category_id and t2.id in (1, 2, 3)
+	where t.deleted is false
+) t where t.row_num <= 5;
+```
 
 
 
