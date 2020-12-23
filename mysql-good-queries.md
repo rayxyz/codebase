@@ -146,7 +146,8 @@ select
 ```
 
 # Query limited items of each category of multiple categories with a single sql
-***(MySQL8.x Only, MySQL8.x supports the syntax)
+***(MySQL8.x Only, MySQL8.x supports the syntax)***
+***For MySQL5.7x or lower than 8.x, use union select instead***
 ```
 select 
 t.* from 
